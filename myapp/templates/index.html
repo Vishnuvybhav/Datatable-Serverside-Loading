@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DataTables Server-side Processing</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+</head>
+<body>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Start date</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th><input id="fname" type="text" placeholder="Search First name"></th>
+                <th><input id="lname" type="text" placeholder="Search Last name"></th>
+                <th><input id="position" type="text" placeholder="Search Position"></th>
+                <th><input id="office" type="text" placeholder="Search Office"></th>
+                <th><input id="sdate" type="text" placeholder="Search Start date"></th>
+                <th><input id="salary" type="text" placeholder="Search Salary"></th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "searching": false, // Disable default searching
+                "ajax": {
+                    "url": "/myapp/datatables/",
+                    "data": function (d) {
+                        // Add custom search parameters for columns
+                        d.columns[0].search.value = $('#fname').val();
+                        d.columns[1].search.value = $('#lname').val();
+                        d.columns[2].search.value = $('#position').val();
+                        d.columns[3].search.value = $('#office').val();
+                        d.columns[4].search.value = $('#sdate').val();
+                        d.columns[5].search.value = $('#salary').val();
+                    }
+                }
+            });
+
+            // Event listener for inputs
+            $('#fname, #lname, #position, #office, #sdate, #salary').on('keyup', function () {
+                table.draw();
+            });
+        });
+    </script>    
+</body>
+</html>
