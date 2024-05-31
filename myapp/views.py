@@ -36,11 +36,11 @@ def datatables_view(request):
 
     # Filtering
     query = Q()
-    if search_value:
-        query |= Q(first_name__icontains=search_value)
-        query |= Q(last_name__icontains=search_value)
-        query |= Q(position__icontains=search_value)
-        query |= Q(office__icontains=search_value)
+    # if search_value:
+    #     query |= Q(first_name__icontains=search_value)
+    #     query |= Q(last_name__icontains=search_value)
+    #     query |= Q(position__icontains=search_value)
+    #     query |= Q(office__icontains=search_value)
 
     if 'columns[0][search][value]' in request.GET:
         query &= Q(first_name__icontains=request.GET['columns[0][search][value]'])
