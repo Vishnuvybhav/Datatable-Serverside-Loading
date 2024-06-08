@@ -21,4 +21,5 @@ urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls),
     path('myapp/', include('myapp.urls')),
+    path('seed/', seed_data_view, name='seed_data'),
 ]

@@ -14,17 +14,18 @@
                 <th>Position</th>
                 <th>Office</th>
                 <th>Start date</th>
-                <th>Salary</th>
+                {% comment %} <th>Salary</th> {% endcomment %}
+                <th>Actions</th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th><input id="fname" type="text" placeholder="Search First name"></th>
-                <th><input id="lname" type="text" placeholder="Search Last name"></th>
-                <th><input id="position" type="text" placeholder="Search Position"></th>
-                <th><input id="office" type="text" placeholder="Search Office"></th>
-                <th><input id="sdate" type="text" placeholder="Search Start date"></th>
-                <th><input id="salary" type="text" placeholder="Search Salary"></th>
+                <th><input type="text" id="fname" data-column="0" placeholder="First Name"></th>
+                <th><input type="text" id="lname" data-column="1" placeholder="Last Name"></th>
+                <th><input type="text" id="position" data-column="2" placeholder="Position"></th>
+                <th><input type="text" id="office" data-column="3" placeholder="Office"></th>
+                <th><input type="text" id="sdate" data-column="4" placeholder="Start Date"></th>
+                {% comment %} <th><input id="salary" type="text" placeholder="Search Salary"></th> {% endcomment %}
             </tr>
         </tfoot>
     </table>
@@ -32,6 +33,15 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script>
+        function editRecord(id) {
+            // Implement edit functionality
+            alert("Edit record: " + id);
+        }
+
+        function deleteRecord(id) {
+            // Implement delete functionality
+            alert("Delete record: " + id);
+        }
         $(document).ready(function() {
             var table = $('#example').DataTable({
                 "processing": true,
@@ -40,22 +50,35 @@
                 "ajax": {
                     "url": "/myapp/datatables/",
                     "data": function (d) {
-                        // Add custom search parameters for columns
-                        d.columns[0].search.value = $('#fname').val();
-                        d.columns[1].search.value = $('#lname').val();
-                        d.columns[2].search.value = $('#position').val();
-                        d.columns[3].search.value = $('#office').val();
-                        d.columns[4].search.value = $('#sdate').val();
-                        d.columns[5].search.value = $('#salary').val();
+                        // Get all input fields
+                        var inputs = $('input[data-column]');
+    
+                        // Loop through each input field and set the search value
+                        inputs.each(function() {
+                            var columnIndex = $(this).data('column');
+                            d.columns[columnIndex].search.value = $(this).val();
+                        });
+                    },
+                    "error": function (xhr, error, code) {
+                        console.log("Error: " + error);
+                        console.log("Response: " + xhr.responseText);
                     }
-                }
+                },
+                "columns": [
+                    { "data": "first_name" },
+                    { "data": "last_name" },
+                    { "data": "position" },
+                    { "data": "office" },
+                    { "data": "start_date" },
+                    { "data": "actions", "orderable": false, "searchable": false }
+                ]
             });
-
+    
             // Event listener for inputs
-            $('#fname, #lname, #position, #office, #sdate, #salary').on('keyup', function () {
+            $('input[data-column]').on('keyup', function () {
                 table.draw();
             });
         });
-    </script>    
+    </script>
 </body>
 </html>
