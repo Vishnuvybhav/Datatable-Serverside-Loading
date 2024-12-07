@@ -14,7 +14,7 @@
                 <th>Position</th>
                 <th>Office</th>
                 <th>Start date</th>
-                {% comment %} <th>Salary</th> {% endcomment %}
+                <th>Location</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -25,7 +25,7 @@
                 <th><input type="text" id="position" data-column="2" placeholder="Position"></th>
                 <th><input type="text" id="office" data-column="3" placeholder="Office"></th>
                 <th><input type="text" id="sdate" data-column="4" placeholder="Start Date"></th>
-                {% comment %} <th><input id="salary" type="text" placeholder="Search Salary"></th> {% endcomment %}
+                <th><input type="text" id="location" data-column="5" placeholder="Location" name="department__location"></th>
             </tr>
         </tfoot>
     </table>
@@ -70,6 +70,7 @@
                     { "data": "position" },
                     { "data": "office" },
                     { "data": "start_date" },
+                    { "data": "location","name": "department__location" },
                     { "data": "actions", "orderable": false, "searchable": false }
                 ]
             });
